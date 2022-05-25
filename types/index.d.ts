@@ -1,6 +1,7 @@
 // TypeScript Version: 4.0
 import { Params, Paginated, Id, NullableId, Hook } from '@feathersjs/feathers';
 import {
+  PaginationOptions, 
   InternalServiceMethods,
   AdapterServiceOptions,
 } from '@feathersjs/adapter-commons';
