@@ -31,12 +31,12 @@ export class Service<T = any> implements InternalServiceMethods<T> {
 
   constructor(config?: Partial<MongooseServiceOptions>);
 
-  $find(params?: Params): Promise<T | T[] | Paginated<T>>;
+  $find(params?: Params): Promise<T[] | Paginated<T>>;
   $get(id: Id, params?: Params): Promise<T>;
   $create(data: Partial<T> | Array<Partial<T>>, params?: Params): Promise<T | T[]>;
-  $update(id: NullableId, data: T, params?: Params): Promise<T>;
-  $patch(id: NullableId, data: Partial<T>, params?: Params): Promise<T>;
-  $remove(id: NullableId, params?: Params): Promise<T>;
+  $update(id: NullableId, data: T, params?: Params): Promise<T | T[]>;
+  $patch(id: NullableId, data: Partial<T>, params?: Params): Promise<T | T[]>;
+  $remove(id: NullableId, params?: Params): Promise<T | T[]>;
 }
 
 declare const mongoose: ((config?: Partial<MongooseServiceOptions>) => Service);
