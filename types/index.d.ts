@@ -31,12 +31,20 @@ export class Service<T = any> implements InternalServiceMethods<T> {
 
   constructor(config?: Partial<MongooseServiceOptions>);
 
-  $find(params?: Params): Promise<T[] | Paginated<T>>;
+  $find(_params?: P & { paginate?: PaginationOptions; }): Promise<Paginated<T>>;
+  $find(_params?: P & { paginate: false; }): Promise<T[]>;
+  $find(params?: P): Promise<T[] | Paginated<T>>;
   $get(id: Id, params?: Params): Promise<T>;
-  $create(data: Partial<T> | Array<Partial<T>>, params?: Params): Promise<T[]>;
-  $update(id: NullableId, data: T, params?: Params): Promise<T[]>;
-  $patch(id: NullableId, data: Partial<T>, params?: Params): Promise<T[]>;
-  $remove(id: NullableId, params?: Params): Promise<T[]>;
+  $create(data: Partial<T>, params?: Params): Promise<T>;
+  $create(data: Partial<T>[], params?: Params): Promise<T[]>;
+  $create(data: Partial<T> | Partial<T>[], params?: Params): Promise<T | T[]>;
+  $update(id: Id, data: T, params?: Params): Promise<T>;
+  $patch(id: null, data: Partial<T>, params?: Params): Promise<T[]>;
+  $patch(id: Id, data: Partial<T>, params?: Params): Promise<T>;
+  $patch(id: NullableId, data: Partial<T>, params?: Params): Promise<T | T[]>;
+  $remove(id: null, params?: Params): Promise<T[]>;
+  $remove(id: Id, params?: Params): Promise<T>;
+  $remove(id: NullableId, params?: Params): Promise<T | T[]>;
 }
 
 declare const mongoose: ((config?: Partial<MongooseServiceOptions>) => Service);
