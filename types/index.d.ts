@@ -51,20 +51,20 @@ export class MongooseAdapter<
   $find(params?: P& { paginate?: PaginationOptions; }): Promise<Paginated<T>>;
   $find(params?: P& { paginate: false; }): Promise<T[]>;
   $find(params?: P): Promise<T[] | Paginated<T>>;
-  $get(id: Id, params?: P = {} as P): Promise<T>;
+  $get(id: Id, params?: P): Promise<T>;
   $create(data: Partial<D>, params?: P): Promise<T>;
   $create(data: Partial<D>[], params?: P): Promise<T[]>;
   $create(data: Partial<D> | Partial<D>[], _params?: P): Promise<T | T[]>;
-  $create(data: Partial<D> | Partial<D>[], params: P = {} as P): Promise<T | T[]>;
-  $update(id: Id, data: D, params: P = {} as P): Promise<T>;
+  $create(data: Partial<D> | Partial<D>[], params: P): Promise<T | T[]>;
+  $update(id: Id, data: D, params: P): Promise<T>;
   $patch(id: null, data: Partial<D>, params?: P): Promise<T[]>;
   $patch(id: Id, data: Partial<D>, params?: P): Promise<T>;
   $patch(id: NullableId, data: Partial<D>, _params?: P): Promise<T | T[]>;
-  $patch(id: NullableId, _data: Partial<D>, params: P = {} as P): Promise<T | T[]>;
+  $patch(id: NullableId, _data: Partial<D>, params: P): Promise<T | T[]>;
   $remove(id: null, params?: P): Promise<T[]>;
   $remove(id: Id, params?: P): Promise<T>;
   $remove(id: NullableId, _params?: P): Promise<T | T[]>;
-  $remove(id: NullableId, params: P = {} as P): Promise<T | T[]>;
+  $remove(id: NullableId, params: P): Promise<T | T[]>;
 }
 
 declare const mongoose: ((config?: Partial<MongooseAdapterOptions>) => MongooseAdapter);
