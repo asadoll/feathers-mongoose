@@ -10,13 +10,13 @@ import {
 import { Model, Document, Query } from 'mongoose';
 
 export namespace hooks {
-  function toObject(options?: any, dataField?: string): Hook;
+  function toObject(options?: any, dataField?: string);
 }
 
 export namespace transactionManager {
-  const beginTransaction: Hook;
-  const commitTransaction: Hook;
-  const rollbackTransaction: Hook;
+  const beginTransaction;
+  const commitTransaction;
+  const rollbackTransaction;
 }
 
 export interface MongooseAdapterOptions<T extends Document = any> extends AdapterServiceOptions {
@@ -24,7 +24,7 @@ export interface MongooseAdapterOptions<T extends Document = any> extends Adapte
   lean: boolean;
   overwrite: boolean;
   useEstimatedDocumentCount: boolean;
-  queryModifier?: (query: Query<any, any>, params: Params) => void;
+  queryModifier?: (query: Query<any, any>, params: AdapterParams) => void;
   queryModifierKey?: string;
 }
 export interface MongooseAdapterParams<Q = AdapterQuery>
