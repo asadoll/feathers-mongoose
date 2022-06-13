@@ -1,5 +1,5 @@
 // TypeScript Version: 4.0
-import { Paginated, ServiceMethods, Id, NullableId } from '@feathersjs/feathers'
+import { Paginated, ServiceMethods, Id, NullableId, Hook } from '@feathersjs/feathers'
 import {
   AdapterBase,
   AdapterParams,
@@ -10,13 +10,13 @@ import {
 import { Model, Document, Query } from 'mongoose';
 
 export namespace hooks {
-  function toObject(options?: any, dataField?: string);
+  function toObject(options?: any, dataField?: string): Hook;
 }
 
 export namespace transactionManager {
-  const beginTransaction;
-  const commitTransaction;
-  const rollbackTransaction;
+  const beginTransaction: Hook;
+  const commitTransaction: Hook;
+  const rollbackTransaction: Hook;
 }
 
 export interface MongooseAdapterOptions<T extends Document = any> extends AdapterServiceOptions {
