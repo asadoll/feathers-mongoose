@@ -69,38 +69,25 @@ export class MongooseService<
   extends MongooseAdapter<T, D, P>
   implements ServiceMethods<T | Paginated<T>, D, P>
 {
-  find(params?: P & { paginate?: PaginationOptions }): Promise<Paginated<T>>
-  find(params?: P & { paginate: false }): Promise<T[]>
-  find(params?: P): Promise<Paginated<T> | T[]>
-  find(params?: P): Promise<Paginated<T> | T[]> {
-    return this._find(params) as any
-  }
+  find(params?: P & { paginate?: PaginationOptions }): Promise<Paginated<T>>;
+  find(params?: P & { paginate: false }): Promise<T[]>;
+  find(params?: P): Promise<Paginated<T> | T[]>;
 
-  get(id: Id, params?: P): Promise<T> {
-    return this._get(id, params)
-  }
+  get(id: Id, params?: P): Promise<T>;
 
   create(data: Partial<D>, params?: P): Promise<T>
   create(data: Partial<D>[], params?: P): Promise<T[]>
-  create(data: Partial<D> | Partial<D>[], params?: P): Promise<T | T[]> {
-    return this._create(data, params)
-  }
+  create(data: Partial<D> | Partial<D>[], params?: P): Promise<T | T[]>;
 
-  update(id: Id, data: D, params?: P): Promise<T> {
-    return this._update(id, data, params)
-  }
+  update(id: Id, data: D, params?: P): Promise<T>;
 
   patch(id: Id, data: Partial<D>, params?: P): Promise<T>
   patch(id: null, data: Partial<D>, params?: P): Promise<T[]>
-  patch(id: NullableId, data: Partial<D>, params?: P): Promise<T | T[]> {
-    return this._patch(id, data, params)
-  }
+  patch(id: NullableId, data: Partial<D>, params?: P): Promise<T | T[]>;
 
   remove(id: Id, params?: P): Promise<T>
   remove(id: null, params?: P): Promise<T[]>
-  remove(id: NullableId, params?: P): Promise<T | T[]> {
-    return this._remove(id, params)
-  }
+  remove(id: NullableId, params?: P): Promise<T | T[]>;
 }
 declare const mongoose: ((config?: Partial<MongooseAdapterOptions>) => MongooseService);
 export default mongoose;
