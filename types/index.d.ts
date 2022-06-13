@@ -1,10 +1,5 @@
 // TypeScript Version: 4.0
-import { Params, Paginated, Id, NullableId, Hook } from '@feathersjs/feathers';
-// import {
-//   PaginationOptions, 
-//   InternalServiceMethods,
-//   AdapterServiceOptions,
-// } from '@feathersjs/adapter-commons';
+import { Paginated, ServiceMethods, Id, NullableId } from '@feathersjs/feathers'
 import {
   AdapterBase,
   AdapterParams,
@@ -13,7 +8,6 @@ import {
   AdapterQuery
 } from '@feathersjs/adapter-commons'
 import { Model, Document, Query } from 'mongoose';
-import { Paginated, ServiceMethods, Id, NullableId } from '@feathersjs/feathers'
 
 export namespace hooks {
   function toObject(options?: any, dataField?: string): Hook;
@@ -75,36 +69,36 @@ export class MongooseService<
   extends MongooseAdapter<T, D, P>
   implements ServiceMethods<T | Paginated<T>, D, P>
 {
-  async find(params?: P & { paginate?: PaginationOptions }): Promise<Paginated<T>>
-  async find(params?: P & { paginate: false }): Promise<T[]>
-  async find(params?: P): Promise<Paginated<T> | T[]>
-  async find(params?: P): Promise<Paginated<T> | T[]> {
+  find(params?: P & { paginate?: PaginationOptions }): Promise<Paginated<T>>
+  find(params?: P & { paginate: false }): Promise<T[]>
+  find(params?: P): Promise<Paginated<T> | T[]>
+  find(params?: P): Promise<Paginated<T> | T[]> {
     return this._find(params) as any
   }
 
-  async get(id: Id, params?: P): Promise<T> {
+  get(id: Id, params?: P): Promise<T> {
     return this._get(id, params)
   }
 
-  async create(data: Partial<D>, params?: P): Promise<T>
-  async create(data: Partial<D>[], params?: P): Promise<T[]>
-  async create(data: Partial<D> | Partial<D>[], params?: P): Promise<T | T[]> {
+  create(data: Partial<D>, params?: P): Promise<T>
+  create(data: Partial<D>[], params?: P): Promise<T[]>
+  create(data: Partial<D> | Partial<D>[], params?: P): Promise<T | T[]> {
     return this._create(data, params)
   }
 
-  async update(id: Id, data: D, params?: P): Promise<T> {
+  update(id: Id, data: D, params?: P): Promise<T> {
     return this._update(id, data, params)
   }
 
-  async patch(id: Id, data: Partial<D>, params?: P): Promise<T>
-  async patch(id: null, data: Partial<D>, params?: P): Promise<T[]>
-  async patch(id: NullableId, data: Partial<D>, params?: P): Promise<T | T[]> {
+  patch(id: Id, data: Partial<D>, params?: P): Promise<T>
+  patch(id: null, data: Partial<D>, params?: P): Promise<T[]>
+  patch(id: NullableId, data: Partial<D>, params?: P): Promise<T | T[]> {
     return this._patch(id, data, params)
   }
 
-  async remove(id: Id, params?: P): Promise<T>
-  async remove(id: null, params?: P): Promise<T[]>
-  async remove(id: NullableId, params?: P): Promise<T | T[]> {
+  remove(id: Id, params?: P): Promise<T>
+  remove(id: null, params?: P): Promise<T[]>
+  remove(id: NullableId, params?: P): Promise<T | T[]> {
     return this._remove(id, params)
   }
 }
