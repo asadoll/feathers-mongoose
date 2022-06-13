@@ -32,8 +32,8 @@ export class Service<T = any> implements InternalServiceMethods<T> {
 
   constructor(config?: Partial<MongooseServiceOptions>);
 
-  $find(_params?: Params & { paginate?: PaginationOptions; }): Promise<Paginated<T>>;
-  $find(_params?: Params & { paginate: false; }): Promise<T[]>;
+  $find(params?: Params & { paginate?: PaginationOptions; }): Promise<Paginated<T>>;
+  $find(params?: Params & { paginate: false; }): Promise<T[]>;
   $find(params?: Params): Promise<T[] | Paginated<T>>;
   $get(id: Id, params?: Params): Promise<T>;
   $create(data: Partial<T>, params?: Params): Promise<T>;
