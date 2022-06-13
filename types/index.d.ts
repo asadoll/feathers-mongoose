@@ -1,10 +1,18 @@
 // TypeScript Version: 4.0
 import { Params, Paginated, Id, NullableId, Hook } from '@feathersjs/feathers';
+// import {
+//   PaginationOptions, 
+//   InternalServiceMethods,
+//   AdapterServiceOptions,
+// } from '@feathersjs/adapter-commons';
 import {
-  PaginationOptions, 
-  InternalServiceMethods,
+  AdapterBase,
+  AdapterParams,
   AdapterServiceOptions,
-} from '@feathersjs/adapter-commons';
+  PaginationOptions,
+  AdapterQuery
+} from '@feathersjs/adapter-commons'
+import { NullableId, Id, Paginated } from '@feathersjs/feathers'
 import { Model, Document, Query } from 'mongoose';
 
 export namespace hooks {
@@ -17,7 +25,7 @@ export namespace transactionManager {
   const rollbackTransaction: Hook;
 }
 
-export interface MongooseServiceOptions<T extends Document = any> extends AdapterServiceOptions {
+export interface MongooseAdapterOptions<T extends Document = any> extends AdapterServiceOptions {
   Model: Model<T>;
   lean: boolean;
   overwrite: boolean;
@@ -25,28 +33,39 @@ export interface MongooseServiceOptions<T extends Document = any> extends Adapte
   queryModifier?: (query: Query<any, any>, params: Params) => void;
   queryModifierKey?: string;
 }
-
-export class Service<T = any> implements InternalServiceMethods<T> {
-  Model: Model<Document>;
-  options: MongooseServiceOptions<Document>;
-
-  constructor(config?: Partial<MongooseServiceOptions>);
-
-  $find(params?: Params & { paginate?: PaginationOptions; }): Promise<Paginated<T>>;
-  $find(params?: Params & { paginate: false; }): Promise<T[]>;
-  $find(params?: Params): Promise<T[] | Paginated<T>>;
-  $get(id: Id, params?: Params): Promise<T>;
-  $create(data: Partial<T>, params?: Params): Promise<T>;
-  $create(data: Partial<T>[], params?: Params): Promise<T[]>;
-  $create(data: Partial<T> | Partial<T>[], params?: Params): Promise<T | T[]>;
-  $update(id: Id, data: T, params?: Params): Promise<T>;
-  $patch(id: null, data: Partial<T>, params?: Params): Promise<T[]>;
-  $patch(id: Id, data: Partial<T>, params?: Params): Promise<T>;
-  $patch(id: NullableId, data: Partial<T>, params?: Params): Promise<T | T[]>;
-  $remove(id: null, params?: Params): Promise<T[]>;
-  $remove(id: Id, params?: Params): Promise<T>;
-  $remove(id: NullableId, params?: Params): Promise<T | T[]>;
+export interface MongooseAdapterParams<Q = AdapterQuery>
+  extends AdapterParams<Q, Partial<MongooseAdapterOptions>> {
 }
 
-declare const mongoose: ((config?: Partial<MongooseServiceOptions>) => Service);
+// export class Service<T = any> implements InternalServiceMethods<T> {
+export class MongooseAdapter<
+  T,
+  D = Partial<T>,
+  P extends MongooseAdapterParams<any> = MongooseAdapterParams
+> extends AdapterBase<T, D, P, MongooseAdapterOptions> {
+  Model: Model<Document>;
+  options: MongooseAdapterOptions<Document>;
+
+  constructor(config?: Partial<MongooseAdapterOptions>);
+
+  $find(params?: P& { paginate?: PaginationOptions; }): Promise<Paginated<T>>;
+  $find(params?: P& { paginate: false; }): Promise<T[]>;
+  $find(params?: P): Promise<T[] | Paginated<T>>;
+  $get(id: Id, params?: P = {} as P): Promise<T>;
+  $create(data: Partial<D>, params?: P): Promise<T>;
+  $create(data: Partial<D>[], params?: P): Promise<T[]>;
+  $create(data: Partial<D> | Partial<D>[], _params?: P): Promise<T | T[]>;
+  $create(data: Partial<D> | Partial<D>[], params: P = {} as P): Promise<T | T[]>;
+  $update(id: Id, data: D, params: P = {} as P): Promise<T>;
+  $patch(id: null, data: Partial<D>, params?: P): Promise<T[]>;
+  $patch(id: Id, data: Partial<D>, params?: P): Promise<T>;
+  $patch(id: NullableId, data: Partial<D>, _params?: P): Promise<T | T[]>;
+  $patch(id: NullableId, _data: Partial<D>, params: P = {} as P): Promise<T | T[]>;
+  $remove(id: null, params?: P): Promise<T[]>;
+  $remove(id: Id, params?: P): Promise<T>;
+  $remove(id: NullableId, _params?: P): Promise<T | T[]>;
+  $remove(id: NullableId, params: P = {} as P): Promise<T | T[]>;
+}
+
+declare const mongoose: ((config?: Partial<MongooseAdapterOptions>) => MongooseAdapter);
 export default mongoose;
